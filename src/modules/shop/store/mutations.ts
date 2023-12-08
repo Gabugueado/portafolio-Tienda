@@ -8,28 +8,46 @@ const mutation: MutationTree<ShopInterface> = {
     setProducts(state, products) {
         state.products = products;
     },
-    productSelected(state, product:ProductInterface) {
+    productSelected(state, product: ProductInterface) {
         state.product = product;
     },
-    addToCart(state, {product, quantity}:{product: ProductInterface, quantity: string}) {
+    addToCart(
+        state,
+        { product, quantity }: { product: ProductInterface; quantity: number }
+    ) {
         // * se agregará solamente al carro,
         // * en un futuro el carro final debe contar con usuario, fecha y ID,...
         // * ...además se creará y guardará en una base de datos una vez que esté en el método de pago
-        state.cart.products.push({ product, quantity });
-        localStorage.setItem( 'products', JSON.stringify( state.cart.products ) )
+        product.quantity = quantity;
+        state.cart.products.push({ ...product });
+        localStorage.setItem("products", JSON.stringify(state.cart.products));
     },
-    updateCartFromStore(state, { product, quantity }:{product: ProductInterface, quantity: string} ){
-        console.log(product);
-        
+    updateCartFromStore(
+        state,
+        { product, quantity }: { product: ProductInterface; quantity: number }
+    ) {
         // * si agrega el mismo producto desde la tienda se le agregará las cantidades seleccionadas a las actuales
-        state.cart.products.map(element => {
-            if ( element.product.id == product.id ){
-                element.quantity =  ( parseInt( element.quantity ) + parseInt( quantity ) ).toString()
-                return element
+        state.cart.products.map((element) => {
+            if (element.id == product.id) {
+                element.quantity += quantity;
+                return element;
             }
-        })
+        });
     },
-    // ToDo: actualizar carro desde la vista /cart
+    incrementQuantity(state, id) {
+        state.cart.products.find((element) => {
+            if (element.id === id) {
+                return element.quantity++;
+            }
+        });
+    },
+    decrementQuantity(state, id) {
+        state.cart.products.find((element) => {
+            if (element.id === id) {
+                return element.quantity--;
+            }
+        });
+    },
 };
 
 export default mutation;
