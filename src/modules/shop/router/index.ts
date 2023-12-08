@@ -31,12 +31,6 @@ export default {
         path: '/cart',
         name: 'cart',
         component: CartViewVue,
-        props: ( route: RouteLocation ) => {
-            return {
-                product: route.params.product,
-                quantity: route.params.quantity,
-            }
-        },
     },{
         path: '/checkout',
         name: 'checkout',

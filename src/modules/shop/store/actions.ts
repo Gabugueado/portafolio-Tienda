@@ -18,21 +18,22 @@ const actions: ActionTree<ShopInterface, StateInterface> = {
     },
     async productById({ commit }, id: string) {
         const { data } = await store.get<ProductInterface>(`/products/${id}`);
-
         if (!data) {
             // TODO: redireccionar a vista /404 o /store
             return "error";
         }
         commit("productSelected", data);
     },
-    async addToCart( { commit }, { product, quantity }: { product: ProductInterface; quantity: string } ) {
-
+    async addToCart(
+        { commit },
+        { product, quantity }: { product: ProductInterface; quantity: number }
+    ) {
         commit("addToCart", { product, quantity });
     },
-    async updateCartFromStore( { commit }, { product, quantity }: { product: ProductInterface; quantity: string } ) {
-
-        console.log(product);
-        
+    async updateCartFromStore(
+        { commit },
+        { product, quantity }: { product: ProductInterface; quantity: number }
+    ) {
         commit("updateCartFromStore", { product, quantity });
     },
 };

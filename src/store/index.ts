@@ -10,13 +10,12 @@ import shopModule from "@/modules/shop/store";
 export interface StateInterface {
     auth: AuthState;
     shop: ShopInterface;
-    // TODO: agregar shop
 }
 
 export default createStore({
     modules: {
         auth: authModule,
         shop: shopModule,
-        // TODO: agregar shop
     },
+    strict: true,
 });

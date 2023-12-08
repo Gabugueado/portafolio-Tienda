@@ -1,11 +1,11 @@
 <template>
   <div class="vertical-menu-container">
     <div class="d-flex justify-content-between m-3">
-      <a href="index.html" class="app-brand-link">
-        <span class="app-brand-logo demo">
-          <img src="@/assets/logo.png" width="30" height="30" class="d-inline-block align-top" alt="Logo">
-        </span>
-      </a>
+        <router-link :to="{ name: 'home' }" class="app-brand-link">
+          <span class="app-brand-logo demo">
+            <img src="@/assets/logo.png" width="30" height="30" class="d-inline-block align-top" alt="Logo">
+          </span>
+      </router-link>
       <span class="app-brand-text demo menu-text fw-bold">menu</span>
       <a href="javascript:void(0);">
         <font-awesome-icon icon="fa-regular fa-circle-dot" size="1x" />

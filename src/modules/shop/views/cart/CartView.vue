@@ -25,18 +25,27 @@
                         <div class="col text-muted" style="text-align: end;">3 items</div>
                     </div>
                 </div>
-                <div  v-for="products in cart.products" :key="products.product.id" class="row align-items-center">
+                <div  v-for="products in cart.products" :key="products.id" class="row align-items-center">
                     <div class="col">
-                        <img class="img-fluid" :src="products.product.image">
+                        <img class="img-fluid" :src="products.image">
                     </div>
                     <div class="col">
-                        <div class="row text-muted">{{ products.product.category }}</div>
-                        <div class="row">{{ products.product.title }}</div>
+                        <div class="row text-muted">{{ products.category }}</div>
+                        <div class="row">{{ products.title }}</div>
                     </div>
                     <div class="col">
-                        <a href="#">-</a><a href="#" class="border">{{ products.quantity }}</a><a href="#">+</a>
+                        <a
+                        class="changeQuantity"
+                          @click="decrementQuantity(products.id)"
+                          :style="products.quantity <= 0 ? 'pointer-events: none;': ''"
+                          >-</a>
+                        {{ products.quantity }}
+                        <a
+                        class="changeQuantity"
+                          @click="incrementQuantity(products.id)"
+                          >+</a>
                     </div>
-                    <div class="col">&euro; {{ products.product.price }} <span class="close">&#10005;</span></div>
+                    <div class="col">&euro; {{ products.price }} <span class="close">&#10005;</span></div>
                 </div>
                 <div class="back-to-shop"><a href="#">&leftarrow;</a><span class="text-muted">Back to shop</span></div>
             </div>
@@ -84,11 +93,12 @@ export default defineComponent({
 
         const store = useStore<StateInterface>()
 
-        console.log();
-
-
+        const cart = computed<CartInterface>(() => store.state.shop.cart)
+        
         return {
-            cart: computed<CartInterface>(() => store.state.shop.cart)
+            cart,
+            incrementQuantity : ( id: number) => store.commit('shop/incrementQuantity', id),
+            decrementQuantity : ( id: number) => store.commit('shop/decrementQuantity', id)
         }
     }
 
@@ -97,4 +107,19 @@ export default defineComponent({
 
 </script>
 
-<style scoped></style>
+<style scoped>
+
+.changeQuantity {
+    border-radius: 5px;
+    background-color: #0F81C7;
+    border: none;
+    color: white;
+    padding: 0.5rem 1.5rem;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    cursor: pointer;
+    user-select: none;
+}
+</style>

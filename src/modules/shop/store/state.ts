@@ -1,37 +1,36 @@
 export interface ShopInterface {
-    product: ProductInterface;
+    product?: ProductInterface;
     products: ProductInterface[];
     category: string[];
     cart: CartInterface;
 }
 
 export interface ProductInterface {
-    id: string;
+    id: number;
     title: string;
-    price: string;
+    price: number;
     category: string;
     description: string;
     image: string;
+    quantity:  number
 }
 export interface CartInterface {
     // id: number|null;
-    userId: number|null;
-    date: string|null;
-    products: {
-        product: ProductInterface;
-        quantity: string
-    }[]
+    userId?: number;
+    date?: string;
+    products: ProductInterface[]
 }
 
 function state(): ShopInterface {
     return {
         product: {
-            id: "",
+            id: 0,
             title: "",
-            price: "",
+            price: 0,
             category: "",
             description: "",
             image: "",
+            quantity: 1,
         },
         products: [],
         category: [
@@ -43,8 +42,8 @@ function state(): ShopInterface {
         cart: {
             // TODO: agregar id cuando se guarde en una base de datos -> 
             // id: null,
-            userId: null,
-            date: null,
+            userId: 0,
+            date: '',
             products: []
         },
     };

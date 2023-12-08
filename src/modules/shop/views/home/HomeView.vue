@@ -96,8 +96,7 @@
                                       style="text-overflow: ellipsis;overflow: hidden;">
                                         {{ product.title }}
                                     </h5>
-                                    <p class="card-text">{{ product.description.substring(0, 100).replace(/\s+\S*$/, "...")
-                                    }}</p>
+                                    <p class="card-text">{{ product.description.substring(0, 100).replace(/\s+\S*$/, "...") }}</p>
                                 </div>
                             </div>
                         </div>

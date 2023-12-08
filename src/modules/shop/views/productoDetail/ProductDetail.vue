@@ -43,12 +43,12 @@
                     <!-- TODO: agregar stock -->
                     <div class="col-12 col-lg-auto">
                         <!-- Quantity -->
-                        <select class="form-select mb-2" v-model="quantity">
-                            <option value="1" selected="true">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
+                        <select class="form-select mb-2" v-model.number="quantity">
+                            <option :value="1" selected="true">1</option>
+                            <option :value="2">2</option>
+                            <option :value="3">3</option>
+                            <option :value="4">4</option>
+                            <option :value="5">5</option>
                         </select>
 
                     </div>
@@ -95,32 +95,29 @@ export default defineComponent({
     setup(props) {
         const store = useStore<StateInterface>()
         const router = useRouter()
-        const quantity = ref('1')
-        const product = computed<ProductInterface>(() => store.state.shop.product)
+        const quantity = ref(1)
+        store.dispatch('shop/productById', props.id)
 
+        const product = computed<ProductInterface>(() => store.getters['shop/product'])
         const addToCart = () => {
             // * Empleo el operador spread para generar una réplica del objeto 'product' y así evitar mutar el objeto original durante la manipulación de datos.
-            const added = {
-                product: { ...product.value },
-                quantity: quantity.value
-            }
-            const productExist = store.state.shop.cart.products.find(element => element.product.id === product.value.id)
+            const productExist = store.state.shop.cart.products.find(element => element.id === product.value.id)
 
             if (productExist) {
-                store.dispatch('shop/updateCartFromStore', { ...added })
+                store.dispatch('shop/updateCartFromStore', { product: product.value, quantity: quantity.value })
                 router.push({ name: 'cart' })
             } else {
-                store.dispatch('shop/addToCart', { ...added })
+                store.dispatch('shop/addToCart', { product: product.value, quantity: quantity.value })
                 router.push({ name: 'cart' })
             }
 
         }
-        store.dispatch('shop/productById', props.id)
+
 
         return {
             product,
-            quantity,
             addToCart,
+            quantity
         }
 
     }
@@ -202,3 +199,4 @@ export default defineComponent({
     user-select: none;
     vertical-align: middle;
 }
+</style>
